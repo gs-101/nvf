@@ -1,6 +1,5 @@
 {
   config,
-  pkgs,
   lib,
   ...
 }: let
@@ -12,7 +11,6 @@ in {
   config = mkIf cfg.enable {
     vim = {
       startPlugins = ["minimap-vim"];
-      extraPackages = [pkgs.code-minimap];
 
       binds.whichKey.register = pushDownDefault {
         "<leader>m" = "+Minimap";
