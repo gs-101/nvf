@@ -6,7 +6,6 @@
 }: let
   inherit (lib.modules) mkIf mkMerge;
   inherit (lib) genAttrs;
-  inherit (lib.meta) getExe;
   inherit (lib.options) mkEnableOption mkOption literalExpression;
   inherit (lib.types) enum nullOr str bool listOf;
   inherit (lib.nvim.types) mkGrammarOption mkPluginSetupOption;
@@ -83,7 +82,7 @@ in {
         setupOpts = mkPluginSetupOption "flutter-tools" {
           flutter_path = mkOption {
             type = nullOr str;
-            default = getExe pkgs.flutter;
+            default = null;
             description = "Path to flutter binary to use";
           };
 
