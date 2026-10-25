@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
-  inherit (lib.meta) getExe;
   inherit (lib.generators) mkLuaInline;
 
   cfg = config.vim.lsp.presets.gopls;
@@ -21,7 +19,7 @@ in {
   config = mkIf cfg.enable {
     vim.lsp.servers.gopls = {
       enable = true;
-      cmd = [(getExe pkgs.gopls)];
+      cmd = ["gopls"];
       root_dir = mkLuaInline ''
         function(bufnr, on_dir)
           local fname = vim.api.nvim_buf_get_name(bufnr)

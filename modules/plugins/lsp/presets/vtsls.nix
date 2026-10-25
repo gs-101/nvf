@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
-  inherit (lib.meta) getExe;
 
   cfg = config.vim.lsp.presets.vtsls;
 in {
@@ -20,14 +18,13 @@ in {
   config = mkIf cfg.enable {
     vim.lsp.servers.vtsls = {
       enable = true;
-      cmd = [(getExe pkgs.vtsls) "--stdio"];
+      cmd = ["vtsls" "--stdio"];
       root_markers = [".git" "tsconfig.json" "package.json"];
       settings = {
         vtsls = {
           tsserver.globalPlugins = [
             {
               name = "@vue/typescript-plugin";
-              location = "${pkgs.vue-language-server}/lib/language-tools/packages/language-server";
               languages = ["vue"];
               configNamespace = "typescript";
             }

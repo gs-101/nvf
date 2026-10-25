@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
-  inherit (lib.meta) getExe;
   inherit (lib.generators) mkLuaInline;
 
   cfg = config.vim.lsp.presets.ocaml-lsp;
@@ -21,7 +19,7 @@ in {
   config = mkIf cfg.enable {
     vim.lsp.servers.ocaml-lsp = {
       enable = true;
-      cmd = [(getExe pkgs.ocamlPackages.ocaml-lsp)];
+      cmd = ["ocamllsp"];
       root_dir = mkLuaInline ''
         function(bufnr, on_dir)
           local fname = vim.api.nvim_buf_get_name(bufnr)

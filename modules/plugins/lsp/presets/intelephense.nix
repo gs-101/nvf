@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
-  inherit (lib.meta) getExe;
 
   cfg = config.vim.lsp.presets.intelephense;
 in {
@@ -26,7 +24,7 @@ in {
   config = mkIf cfg.enable {
     vim.lsp.servers.intelephense = {
       enable = true;
-      cmd = [(getExe pkgs.intelephense) "--stdio"];
+      cmd = ["intelephense" "--stdio"];
       root_markers = [".git"];
     };
   };

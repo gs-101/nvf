@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
-  inherit (lib.meta) getExe;
 
   cfg = config.vim.lsp.presets.solargraph;
 in {
@@ -20,7 +18,7 @@ in {
   config = mkIf cfg.enable {
     vim.lsp.servers.solargraph = {
       enable = true;
-      cmd = [(getExe pkgs.rubyPackages.solargraph) "stdio"];
+      cmd = ["solargraph" "stdio"];
       root_markers = [".git"];
       settings = {
         solargraph = {

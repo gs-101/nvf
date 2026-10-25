@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
-  inherit (lib.meta) getExe;
 
   cfg = config.vim.lsp.presets.openscad-lsp;
 in {
@@ -20,7 +18,7 @@ in {
   config = mkIf cfg.enable {
     vim.lsp.servers.openscad-lsp = {
       enable = true;
-      cmd = [(getExe pkgs.openscad-lsp) "--stdio"];
+      cmd = ["openscad-lsp" "--stdio"];
       root_markers = [".git"];
     };
   };
