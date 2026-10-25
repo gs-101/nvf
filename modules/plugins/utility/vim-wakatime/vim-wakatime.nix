@@ -1,6 +1,4 @@
-{
-  pkgs,
-  lib,
+{  lib,
   ...
 }: let
   inherit (lib.options) mkOption mkEnableOption literalExpression;
@@ -15,7 +13,7 @@ in {
     setupOpts = mkPluginSetupOption "vim-wakatime" {
       cli_path = mkOption {
         type = str;
-        default = lib.getExe' pkgs.wakatime-cli "wakatime-cli";
+        default = "wakatime-cli";
         defaultText = literalExpression "lib.getExe' pkgs.wakatime-cli \"wakatime-cli\"";
         example = literalExpression "wakatime-cli";
         description = ''
