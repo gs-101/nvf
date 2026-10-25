@@ -1,6 +1,5 @@
 {
   lib,
-  pkgs,
   config,
   ...
 }: let
@@ -8,7 +7,6 @@
   inherit (lib.nvim.types) mkDapPresetEnableOption;
 
   cfg = config.vim.debugger.nvim-dap.presets.codelldb;
-  codelldb = pkgs.vscode-extensions.vadimcn.vscode-lldb.adapter;
 in {
   options.vim.debugger.nvim-dap.presets.codelldb = {
     enable = mkDapPresetEnableOption {
@@ -23,8 +21,8 @@ in {
       type = "server";
       port = "\${port}";
       executable = {
-        command = "${codelldb}/bin/codelldb";
-        args = ["--liblldb" "${codelldb}/share/lldb/lib/liblldb.so" "--port" "\${port}"];
+        command = "codelldb";
+        args = ["--port" "\${port}"];
       };
     };
   };
