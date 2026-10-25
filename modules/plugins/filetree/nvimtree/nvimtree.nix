@@ -1,11 +1,9 @@
 {
   config,
-  pkgs,
   lib,
   ...
 }: let
   inherit (lib.options) mkEnableOption mkOption;
-  inherit (lib.meta) getExe';
   inherit (lib.generators) mkLuaInline;
   inherit (lib.types) str bool enum;
   inherit (lib.nvim.types) mkPluginSetupOption;
@@ -55,7 +53,7 @@ in {
       trash = {
         cmd = mkOption {
           type = str;
-          default = "${getExe' pkgs.glib "gio"} trash";
+          default = "gio trash";
           description = "The command used to trash items";
         };
       };
