@@ -1,11 +1,9 @@
 {
   config,
-  pkgs,
   lib,
   ...
 }: let
   inherit (lib.options) mkOption mkEnableOption;
-  inherit (lib.meta) getExe;
   inherit (lib.types) str listOf;
   inherit (lib.nvim.types) mkPluginSetupOption;
   mkMappingOption = config.vim.lib.mkMappingOption "Todo-Comments";
@@ -31,7 +29,7 @@ in {
 
         command = mkOption {
           type = str;
-          default = getExe pkgs.ripgrep;
+          default = "rg";
           description = "search command";
         };
 
