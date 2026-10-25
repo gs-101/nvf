@@ -195,7 +195,6 @@ in {
             cmd = config.vim.lsp.servers.roslyn-ls.cmd;
           };
         };
-        extraPackages = with pkgs; [roslyn-ls];
       };
     })
     (mkIf (shouldEnableExclusiveLspExtension "omnisharp-extended-lsp-nvim" "omnisharp") {
