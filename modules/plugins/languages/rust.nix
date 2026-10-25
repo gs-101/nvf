@@ -200,7 +200,7 @@ in {
             description = "LSP configuration";
             default = {
               # For some reason rustaceanvim needs the command set explicitly, and does not pick up on vim.lsp.config settings.
-              cmd = [(getExe pkgs.rust-analyzer)];
+              cmd = ["rust-analyzer"];
 
               on_attach = mkLuaInline ''
                 function(client, bufnr)
@@ -253,21 +253,17 @@ in {
                   mkLuaInline ''
                     {
                       type = "executable",
-                      command = "${getExe' pkgs.lldb "lldb-dap"}",
+                      command = "lldb-dap",
                       name = "rustacean_lldb",
                     }''
-                else let
-                  codelldb = pkgs.vscode-extensions.vadimcn.vscode-lldb.adapter;
-                  codelldbPath = "${codelldb}/bin/codelldb";
-                  liblldbPath = "${codelldb}/share/lldb/lib/liblldb.so";
-                in
+                else
                   mkLuaInline ''
                     {
                       type = "server",
                       port = "''${port}",
                       executable = {
-                        command = "${codelldbPath}",
-                        args = { "--liblldb", "${liblldbPath}", "--port", "''${port}" },
+                        command = "codelldb",
+                        args = { "--port", "''${port}" },
                       },
                     }
                   '';
