@@ -182,8 +182,7 @@ in {
         setupOpts = mkPluginSetupOption "maven-nvim" {
           mvn_executable = mkOption {
             type = str;
-            default = getExe pkgs.maven;
-            defaultText = literalExpression "getExe pkgs.maven";
+            default = "maven";
             description = ''
               The maven executable to use.
             '';
@@ -200,8 +199,7 @@ in {
         setupOpts = mkPluginSetupOption "gradle-nvim" {
           gadle_executable = mkOption {
             type = str;
-            default = getExe pkgs.gradle;
-            defaultText = literalExpression "getExe pkgs.gradle";
+            default = "gradle";
             description = ''
               The gradle executable to use.
             '';
