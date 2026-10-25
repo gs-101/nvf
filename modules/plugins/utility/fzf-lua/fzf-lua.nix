@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.types) enum str;
@@ -13,7 +12,7 @@ in {
     setupOpts = mkPluginSetupOption "fzf-lua" {
       fzf_bin = mkOption {
         type = str;
-        default = "${lib.getExe pkgs.fzf}";
+        default = "fzf";
         description = "Path to fzf executable";
       };
       winopts.border = mkOption {
