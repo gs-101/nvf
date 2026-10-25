@@ -5,12 +5,10 @@
   lib,
   ...
 }: let
-  inherit (builtins) attrNames;
   inherit (lib.options) mkEnableOption mkOption literalMD literalExpression;
   inherit (lib.modules) mkIf mkMerge;
-  inherit (lib.meta) getExe;
   inherit (lib) genAttrs;
-  inherit (lib.types) enum package str listOf;
+  inherit (lib.types) enum str listOf;
   inherit (lib.nvim.types) mkGrammarOption mkPluginSetupOption;
 
   cfg = config.vim.languages.go;
@@ -20,13 +18,6 @@
 
   defaultFormat = ["gofmt"];
   formats = ["gofmt" "gofumpt" "golines" "goimports" "injected"];
-
-  defaultDebugger = "delve";
-  debuggers = {
-    delve = {
-      package = pkgs.delve;
-    };
-  };
 
   defaultDiagnosticsProvider = ["golangci-lint"];
   diagnosticsProviders = ["golangci-lint"];
@@ -95,23 +86,6 @@ in {
           default = config.vim.languages.enableDAP;
           defaultText = literalExpression "config.vim.languages.enableDAP";
         };
-
-      debugger = mkOption {
-        type = enum (attrNames debuggers);
-        default = defaultDebugger;
-        description = ''
-          Go debugger to use.
-
-          "delve" uses `nvim-dap-go`
-          ({option}`vim.languages.go.extensions.nvim-dap-go`)
-        '';
-      };
-
-      package = mkOption {
-        type = package;
-        default = debuggers.${cfg.dap.debugger}.package;
-        description = "Go debugger package.";
-      };
     };
 
     extraDiagnostics = {
@@ -136,8 +110,7 @@ in {
           delve = {
             path = mkOption {
               type = str;
-              default = getExe cfg.dap.package;
-              defaultText = literalExpression "getExe cfg.dap.package";
+              default = "dlv";
               description = "Path to delve binary to use";
             };
           };
@@ -156,36 +129,31 @@ in {
 
             gomodifytags = mkOption {
               type = str;
-              default = getExe pkgs.gomodifytags;
-              defaultText = literalExpression "getExe pkgs.gomodifytags";
+              default = "gomodifytags";
               description = "gomodifytags binary to use";
             };
 
             gotests = mkOption {
               type = str;
-              default = getExe pkgs.gotests;
-              defaultText = literalExpression "getExe pkgs.gotests";
+              default = "gotests";
               description = "gotests binary to use";
             };
 
             impl = mkOption {
               type = str;
-              default = getExe pkgs.impl;
-              defaultText = literalExpression "getExe pkgs.impl";
+              default = "impl";
               description = "impl binary to use";
             };
 
             iferr = mkOption {
               type = str;
-              default = getExe pkgs.iferr;
-              defaultText = literalExpression "getExe pkgs.iferr";
+              default = "iferr";
               description = "iferr binary to use";
             };
 
             json2go = mkOption {
               type = str;
-              default = getExe inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.json2go;
-              defaultText = literalExpression "getExe inputs.self.packages.$${pkgs.stdenv.hostPlatform.system}.json2go";
+              default = "json2go";
               description = "json2go binary to use";
             };
           };
