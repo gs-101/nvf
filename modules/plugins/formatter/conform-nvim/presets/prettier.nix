@@ -1,14 +1,11 @@
 {
   config,
   lib,
-  pkgs,
-  inputs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkOption literalMD;
   inherit (lib.nvim.types) mkFormatterPresetEnableOption;
-  inherit (lib.meta) getExe;
   inherit (lib.types) enum listOf attrsOf str;
   inherit (lib.generators) mkLuaInline;
   inherit (lib.nvim.lua) toLuaObject;
@@ -17,19 +14,17 @@
 
   cfg = config.vim.formatter.conform-nvim.presets.prettier;
 
-  plugins = let
-    inherit (inputs.self.packages.${pkgs.stdenv.hostPlatform.system}) prettier-plugin-astro prettier-plugin-svelte prettier-plugin-pug;
-  in {
+  plugins = {
     astro = {
-      plugin = "${prettier-plugin-astro}/index.js";
+      plugin = "prettier-plugin-astro";
       filetypes = ["astro"];
     };
     svelte = {
-      plugin = "${prettier-plugin-svelte}/plugin.js";
+      plugin = "prettier-plugin-svelte";
       filetypes = ["svelte"];
     };
     pug = {
-      plugin = "${prettier-plugin-pug}/index.js";
+      plugin = "@prettier/plugin-pug";
       filetypes = ["pug"];
     };
   };
@@ -66,7 +61,7 @@ in {
         `config.vim.formatter.conform-nvim.presets.prettier.plugins`.
       '';
       description = ''
-        By default prettier infers the parser to use automatically from the file name.
+        In some cases, Prettier cannot infer the appropriate parser for a file on its own, even after loading a plugin.
         This option allows to override that.
 
         See more about this upstream:
@@ -77,15 +72,8 @@ in {
 
   config = mkIf cfg.enable {
     vim.formatter.conform-nvim.setupOpts.formatters.prettier = {
-      # extends <https://github.com/stevearc/conform.nvim/blob/master/lua/conform/formatters/prettier.lua>
-      command = getExe pkgs.prettier;
-
-      # Due to the way conform does the parser options, we can always register the filetype parser,
-      # even when we didn't load the plugin. This allows us to precompute this map.
-      # <https://github.com/stevearc/conform.nvim/blob/master/lua/conform/formatters/prettier.lua#L32>
+      command = "prettier";
       options.ft_parsers = cfg.filetypeParser;
-
-      # dynamically load the required plugins
       prepend_args = let
         args = listToAttrs (concatMap
           (name:

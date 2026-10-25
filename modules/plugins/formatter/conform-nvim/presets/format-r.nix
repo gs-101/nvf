@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkFormatterPresetEnableOption;
-  inherit (lib.meta) getExe;
 
   cfg = config.vim.formatter.conform-nvim.presets.format-r;
 in {
@@ -19,7 +17,7 @@ in {
 
   config = mkIf cfg.enable {
     vim.formatter.conform-nvim.setupOpts.formatters.format-r = {
-      command = getExe (pkgs.rWrapper.override {packages = [pkgs.rPackages.formatR];});
+      command = "R";
       stdin = true;
       args = [
         "--slave"
