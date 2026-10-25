@@ -1,6 +1,5 @@
 {
   lib,
-  pkgs,
   config,
   ...
 }: let
@@ -10,7 +9,6 @@
   inherit (lib.nvim.types) mkDapPresetEnableOption;
 
   cfg = config.vim.debugger.nvim-dap.presets.debugpy;
-  package = pkgs.python3.withPackages (ps: with ps; [debugpy]);
 in {
   options.vim.debugger.nvim-dap.presets.debugpy = {
     enable = mkDapPresetEnableOption {
@@ -40,7 +38,7 @@ in {
         else
           cb({
             type = "executable",
-            command = "${getExe package}",
+            command = "python3",
             args = { "-m", "debugpy.adapter" },
             options = {
               source_filetype = "python",
