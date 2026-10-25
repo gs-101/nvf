@@ -1,6 +1,5 @@
 {
   config,
-  pkgs,
   lib,
   ...
 }: let
@@ -81,7 +80,7 @@ in {
 
       package = mkOption {
         type = nullOr package;
-        default = pkgs.lazygit;
+        default = null;
         defaultText = literalExpression "pkgs.lazygit";
         description = ''
           The package that should be used for lazygit.
