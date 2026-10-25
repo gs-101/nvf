@@ -65,7 +65,7 @@ in {
 
       enableNoResolvePatch = mkOption {
         type = bool;
-        default = true;
+        default = false;
         description = ''
           Whether to patch flutter-tools so that it doesn't resolve
           symlinks when detecting flutter path.
