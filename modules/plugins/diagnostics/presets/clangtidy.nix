@@ -1,10 +1,8 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
-  inherit (lib.meta) getExe';
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkDiagnosticsPresetEnableOption;
 
@@ -18,6 +16,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    vim.diagnostics.nvim-lint.linters.clangtidy.cmd = getExe' pkgs.clang-tools "clang-tidy";
+    vim.diagnostics.nvim-lint.linters.clangtidy.cmd = "clang-tidy";
   };
 }

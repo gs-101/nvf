@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkDiagnosticsPresetEnableOption;
-  inherit (lib.meta) getExe;
 
   cfg = config.vim.diagnostics.presets.taplo;
 in {
@@ -19,7 +17,7 @@ in {
 
   config = mkIf cfg.enable {
     vim.diagnostics.nvim-lint.linters.taplo = {
-      cmd = getExe pkgs.taplo;
+      cmd = "taplo";
       args = ["lint"];
     };
   };

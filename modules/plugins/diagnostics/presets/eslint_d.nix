@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkDiagnosticsPresetEnableOption;
-  inherit (lib.meta) getExe;
 
   cfg = config.vim.diagnostics.presets.eslint_d;
 in {
@@ -19,7 +17,7 @@ in {
 
   config = mkIf cfg.enable {
     vim.diagnostics.nvim-lint.linters.eslint_d = {
-      cmd = getExe pkgs.eslint_d;
+      cmd = "eslint_d";
       required_files = [
         "eslint.config.js"
         "eslint.config.mjs"
