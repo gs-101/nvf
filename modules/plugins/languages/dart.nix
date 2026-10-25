@@ -63,15 +63,9 @@ in {
           defaultText = literalExpression "config.vim.lsp.enable";
         };
 
-      flutterPackage = mkOption {
-        type = nullOr package;
-        default = pkgs.flutter;
-        description = "Flutter package, or null to detect the flutter path at runtime instead.";
-      };
-
       enableNoResolvePatch = mkOption {
         type = bool;
-        default = false;
+        default = true;
         description = ''
           Whether to patch flutter-tools so that it doesn't resolve
           symlinks when detecting flutter path.
@@ -140,7 +134,6 @@ in {
 
       vim.pluginRC.flutter-tools = entryAfter ["lsp-servers"] ''
         require('flutter-tools').setup {
-          ${optionalString (ftcfg.flutterPackage != null) "flutter_path = \"${ftcfg.flutterPackage}/bin/flutter\","}
           lsp = {
             color = { -- show the derived colours for dart variables
               enabled = ${boolToString ftcfg.color.enable}, -- whether or not to highlight color variables at all, only supported on flutter >= 2.10
