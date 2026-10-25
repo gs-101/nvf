@@ -28,9 +28,8 @@
   </p>
 </div>
 
-<p align="center">
-    <img src="https://stars.medv.io/NotAShelf/nvf.svg", title="stars"/>
-</p>
+>[!NOTE]
+>This fork exists only to remove package declarations from nvf, reducing closure size and development dependencies to project flakes.
 
 <div align="center">
   <a>
