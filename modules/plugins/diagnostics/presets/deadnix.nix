@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkDiagnosticsPresetEnableOption;
-  inherit (lib.meta) getExe;
 
   cfg = config.vim.diagnostics.presets.deadnix;
 in {
@@ -18,6 +16,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    vim.diagnostics.nvim-lint.linters.deadnix.cmd = getExe pkgs.deadnix;
+    vim.diagnostics.nvim-lint.linters.deadnix.cmd = "deadnix";
   };
 }

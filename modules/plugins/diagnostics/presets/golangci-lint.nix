@@ -1,11 +1,9 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
-  inherit (lib.meta) getExe;
   inherit (lib.generators) mkLuaInline;
   inherit (lib.nvim.types) mkDiagnosticsPresetEnableOption;
 
@@ -20,7 +18,7 @@ in {
 
   config = mkIf cfg.enable {
     vim.diagnostics.nvim-lint.linters.golangci-lint = {
-      cmd = getExe pkgs.golangci-lint;
+      cmd = "golangci-lint";
       args = [
         "run"
         "--output.json.path=stdout"
@@ -41,7 +39,7 @@ in {
           -- Run on current file only if go.mod is missing
           function()
             local fnmod = ":p";
-            local cmd = {"${getExe pkgs.go}", "env", "GOMOD"};
+            local cmd = {"go", "env", "GOMOD"};
             local ok, gomod = pcall(vim.fn.system, cmd);
             gomod = gomod:gsub("%s+", "")
             if ok and gomod ~= "" and gomod ~= "/dev/null" then
