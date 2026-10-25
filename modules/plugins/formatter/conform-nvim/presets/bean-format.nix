@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
@@ -18,7 +17,7 @@ in {
 
   config = mkIf cfg.enable {
     vim.formatter.conform-nvim.setupOpts.formatters.bean-format = {
-      command = "${pkgs.beancount}/bin/bean-format";
+      command = "bean-format";
     };
   };
 }

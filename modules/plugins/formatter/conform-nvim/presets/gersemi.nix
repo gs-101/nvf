@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkFormatterPresetEnableOption;
-  inherit (lib.meta) getExe;
   inherit (lib.generators) mkLuaInline;
 
   cfg = config.vim.formatter.conform-nvim.presets.gersemi;
@@ -20,7 +18,7 @@ in {
 
   config = mkIf cfg.enable {
     vim.formatter.conform-nvim.setupOpts.formatters.gersemi = {
-      command = getExe pkgs.gersemi;
+      command = "gersemi";
       args = mkLuaInline ''
         function(self, ctx)
           local indent = vim.bo[ctx.buf].expandtab and vim.bo[ctx.buf].shiftwidth or "tabs"

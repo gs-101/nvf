@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkFormatterPresetEnableOption;
-  inherit (lib.meta) getExe;
   inherit (lib.generators) mkLuaInline;
 
   cfg = config.vim.formatter.conform-nvim.presets.taplo;
@@ -20,7 +18,7 @@ in {
 
   config = mkIf cfg.enable {
     vim.formatter.conform-nvim.setupOpts.formatters.taplo = {
-      command = getExe pkgs.taplo;
+      command = "taplo";
       args = mkLuaInline ''
         function(self, ctx)
           local indent = not vim.bo[ctx.buf].expandtab and "\t" or string.rep(" ", vim.bo[ctx.buf].shiftwidth)
