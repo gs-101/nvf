@@ -1,13 +1,11 @@
 {
   config,
-  pkgs,
   lib,
   ...
 }: let
   inherit (lib.options) mkEnableOption mkOption;
   inherit (lib.types) str enum float;
   inherit (lib.nvim.types) mkPluginSetupOption;
-  inherit (lib.meta) getExe;
   inherit (config.vim.lib) mkMappingOption;
 
   cfg = config.vim.assistant.copilot;
@@ -19,7 +17,7 @@ in {
     setupOpts = mkPluginSetupOption "Copilot" {
       copilot_node_command = mkOption {
         type = str;
-        default = "${lib.getExe pkgs.nodejs-slim}";
+        default = "node";
         description = ''
           The command that will be executed to initiate nodejs for GitHub Copilot.
           Recommended to leave as default.
@@ -28,7 +26,7 @@ in {
       server = {
         custom_server_filepath = mkOption {
           type = str;
-          default = getExe pkgs.copilot-language-server;
+          default = "copilot-language-server";
           description = ''
             Path to the GitHub Copilot language server executable.
             Recommended to leave as default.
