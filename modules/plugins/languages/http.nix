@@ -20,7 +20,7 @@
   defaultFormat = ["kulala-fmt"];
   formats = {
     kulala-fmt = {
-      command = getExe pkgs.kulala-fmt;
+      command = "kulala-fmt";
     };
   };
 in {
@@ -62,7 +62,7 @@ in {
           kulala_core = {
             path = mkOption {
               type = nullOr str;
-              default = getExe pkgs.kulala-core;
+              default = "kulala-fmt";
               defaultText = literalExpression "getExe pkgs.kulala-fmt";
               description = ''
                 Optional path to the [kulala-core executable](https://github.com/mistweaverco/kulala-core).
@@ -73,7 +73,7 @@ in {
             };
             download_tool = mkOption {
               type = str;
-              default = "${pkgs.curlMinimal}/bin/curl";
+              default = "curl";
               defaultText = literalExpression "$${pkgs.curlMinimal}/bin/curl";
               description = "`curl` or `wget` or full path to `curl` or `wget` executable.";
             };
