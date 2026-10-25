@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
-  inherit (lib.meta) getExe;
 
   cfg = config.vim.lsp.presets.cue;
 in {
@@ -20,7 +18,7 @@ in {
   config = mkIf cfg.enable {
     vim.lsp.servers.cue = {
       enable = true;
-      cmd = [(getExe pkgs.cue) "lsp"];
+      cmd = ["cue" "lsp"];
       root_markers = [".git" "cue.mod"];
     };
   };

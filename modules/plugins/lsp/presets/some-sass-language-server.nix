@@ -1,13 +1,10 @@
 {
-  inputs,
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
-  inherit (lib.meta) getExe;
 
   cfg = config.vim.lsp.presets.some-sass-language-server;
 in {
@@ -21,7 +18,7 @@ in {
   config = mkIf cfg.enable {
     vim.lsp.servers.some-sass-language-server = {
       enable = true;
-      cmd = [(getExe inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.some-sass-language-server) "--stdio"];
+      cmd = ["some-sass-language-server" "--stdio"];
       root_markers = [".git" "package.json"];
       # <https://wkillerud.github.io/some-sass/language-server/settings.html>
       settings = {

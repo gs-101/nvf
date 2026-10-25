@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
-  inherit (lib.meta) getExe;
   inherit (lib.generators) mkLuaInline;
 
   cfg = config.vim.lsp.presets.omnisharp;
@@ -23,7 +21,7 @@ in {
     vim.lsp.servers.omnisharp = {
       cmd = mkLuaInline ''
         {
-          '${getExe pkgs.omnisharp-roslyn}',
+          'OmniSharp',
           '-z', -- https://github.com/OmniSharp/omnisharp-vscode/pull/4300
           '--hostPID',
           tostring(vim.fn.getpid()),

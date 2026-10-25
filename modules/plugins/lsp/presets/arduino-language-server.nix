@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
-  inherit (lib.meta) getExe getExe';
   inherit (lib.generators) mkLuaInline;
 
   cfg = config.vim.lsp.presets.arduino-language-server;
@@ -22,11 +20,11 @@ in {
     vim.lsp.servers.arduino-language-server = {
       enable = true;
       cmd = [
-        (getExe pkgs.arduino-language-server)
+        "arduino-language-server"
         "-clangd"
-        (getExe' pkgs.clang-tools "clangd")
+        "clangd"
         "-cli"
-        (getExe pkgs.arduino-cli)
+        "arduino-cli"
         "-cli-config"
         "$HOME/.arduino15/arduino-cli.yaml"
       ];

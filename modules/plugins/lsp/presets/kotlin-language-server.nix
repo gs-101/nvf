@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
-  inherit (lib.meta) getExe;
   inherit (lib.generators) mkLuaInline;
 
   cfg = config.vim.lsp.presets.kotlin-language-server;
@@ -21,7 +19,7 @@ in {
   config = mkIf cfg.enable {
     vim.lsp.servers.kotlin-language-server = {
       enable = true;
-      cmd = [(getExe pkgs.kotlin-language-server)];
+      cmd = ["kotlin-language-server"];
       root_markers = [
         "settings.gradle" # Gradle (multi-project)
         "settings.gradle.kts" # Gradle (multi-project)

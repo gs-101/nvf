@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
-  inherit (lib.meta) getExe;
   inherit (lib.generators) mkLuaInline;
   inherit (lib.nvim.lua) toLuaObject;
 
@@ -79,7 +77,7 @@ in {
   config = mkIf cfg.enable {
     vim.lsp.servers.tailwindcss-language-server = {
       enable = true;
-      cmd = [(getExe pkgs.tailwindcss-language-server) "--stdio"];
+      cmd = ["tailwindcss-language-server" "--stdio"];
       root_markers = [".git"];
       inherit filetypes;
       settings = {

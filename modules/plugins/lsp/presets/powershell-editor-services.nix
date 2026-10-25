@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
-  inherit (lib.meta) getExe;
 
   cfg = config.vim.lsp.presets.powershell-editor-services;
 in {
@@ -20,7 +18,7 @@ in {
   config = mkIf cfg.enable {
     vim.lsp.servers.powershell-editor-services = {
       enable = true;
-      cmd = [(getExe pkgs.powershell-editor-services) "-LogLevel" "Error" "-Stdio"];
+      cmd = ["powershell-editor-services" "-LogLevel" "Error" "-Stdio"];
       root_markers = [".git"];
     };
   };

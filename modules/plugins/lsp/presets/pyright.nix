@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
-  inherit (lib.meta) getExe';
   inherit (lib.generators) mkLuaInline;
   inherit (lib.nvim.dag) entryBefore;
 
@@ -23,7 +21,7 @@ in {
     vim = {
       lsp.servers.pyright = {
         enable = true;
-        cmd = [(getExe' pkgs.pyright "pyright-langserver") "--stdio"];
+        cmd = ["pyright-langserver" "--stdio"];
         root_markers = [".git" "pyrightconfig.json"];
         settings = {
           python = {

@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
-  inherit (lib.meta) getExe;
   inherit (lib.generators) mkLuaInline;
 
   cfg = config.vim.lsp.presets.typescript-language-server;
@@ -21,7 +19,7 @@ in {
   config = mkIf cfg.enable {
     vim.lsp.servers.typescript-language-server = {
       enable = true;
-      cmd = [(getExe pkgs.typescript-language-server) "--stdio"];
+      cmd = ["typescript-language-server" "--stdio"];
       root_markers = [".git" "tsconfig.json" "package.json"];
       init_options = {hostInfo = "neovim";};
       handlers = {

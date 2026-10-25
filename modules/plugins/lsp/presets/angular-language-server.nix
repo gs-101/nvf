@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
-  inherit (lib.meta) getExe;
 
   cfg = config.vim.lsp.presets.angular-language-server;
 in {
@@ -20,7 +18,7 @@ in {
   config = mkIf cfg.enable {
     vim.lsp.servers.angular-language-server = {
       enable = true;
-      cmd = [(getExe pkgs.angular-language-server) "--stdio"];
+      cmd = ["ngserver" "--stdio"];
       root_markers = ["angular.json" "nx.json"];
       workspace_required = true;
     };

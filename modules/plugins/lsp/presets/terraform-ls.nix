@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
-  inherit (lib.meta) getExe;
 
   cfg = config.vim.lsp.presets.terraform-ls;
 in {
@@ -20,7 +18,7 @@ in {
   config = mkIf cfg.enable {
     vim.lsp.servers.terraform-ls = {
       enable = true;
-      cmd = [(getExe pkgs.terraform-ls) "serve"];
+      cmd = ["terraform-ls" "serve"];
       root_markers = [".git"];
     };
   };

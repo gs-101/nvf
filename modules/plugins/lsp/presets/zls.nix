@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
-  inherit (lib.meta) getExe;
 
   cfg = config.vim.lsp.presets.zls;
 in {
@@ -20,7 +18,7 @@ in {
   config = mkIf cfg.enable {
     vim.lsp.servers.zls = {
       enable = true;
-      cmd = [(getExe pkgs.zls)];
+      cmd = ["zls"];
       root_markers = [".git" "zls.json"];
       workspace_required = false;
     };

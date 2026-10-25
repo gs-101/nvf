@@ -1,10 +1,8 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
-  inherit (lib.meta) getExe;
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
   inherit (lib.nvim.dag) entryBefore;
@@ -94,7 +92,7 @@ in {
 
     vim.lsp.servers.rust-analyzer = {
       enable = true;
-      cmd = [(getExe pkgs.rust-analyzer)];
+      cmd = ["rust-analyzer"];
 
       on_attach = mkLuaInline ''
         function(client, bufnr)

@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
-  inherit (lib.meta) getExe;
 
   cfg = config.vim.lsp.presets.phpactor;
 in {
@@ -20,7 +18,7 @@ in {
   config = mkIf cfg.enable {
     vim.lsp.servers.phpactor = {
       enable = true;
-      cmd = [(getExe pkgs.phpactor) "language-server"];
+      cmd = ["phpactor" "language-server"];
       root_markers = [".git" ".phpactor.json" ".phpactor.yml"];
       workspace_required = true;
     };

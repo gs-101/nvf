@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.nvim.types) mkLspPresetEnableOption;
-  inherit (lib.meta) getExe;
 
   cfg = config.vim.lsp.presets.markdown-oxide;
 in {
@@ -20,7 +18,7 @@ in {
   config = mkIf cfg.enable {
     vim.lsp.servers.markdown-oxide = {
       enable = true;
-      cmd = [(getExe pkgs.markdown-oxide)];
+      cmd = ["markdown-oxide"];
       root_markers = [".git" ".moxide.toml" ".obsidian"];
     };
   };
