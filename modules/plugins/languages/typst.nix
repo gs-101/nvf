@@ -87,8 +87,8 @@ in {
           dependencies_bin = mkOption {
             type = attrsOf str;
             default = {
-              "tinymist" = getExe pkgs.tinymist;
-              "websocat" = getExe pkgs.websocat;
+              "tinymist" = "tinymist";
+              "websocat" = "websocat";
             };
 
             description = ''
@@ -146,7 +146,7 @@ in {
           };
           typst_location = mkOption {
             type = str;
-            default = getExe pkgs.typst;
+            default = "typst";
             description = "Where should typst-concealer look for your typst binary?";
             example = ''lib.getExe pkgs.typst'';
           };
