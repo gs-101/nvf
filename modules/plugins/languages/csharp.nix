@@ -77,33 +77,6 @@ in {
               type = enum ["auto" "roslyn" "off"];
               default = "auto";
             };
-            extensions.razor = {
-              enabled =
-                (mkEnableOption "Additional roslyn extensions (for example Roslynator/Razor)")
-                // {default = true;};
-              config = mkOption {
-                description = "Configuration for the additional roslyn extensions";
-                type = luaInline;
-                default = let
-                  pkg = pkgs.vscode-extensions.ms-dotnettools.csharp;
-                  pluginRoot = "${pkg}/share/vscode/extensions/ms-dotnettools.csharp";
-                  razorExtension = "${pluginRoot}/.razorExtension/Microsoft.VisualStudioCode.RazorExtension.dll";
-                  razorSourceGenerator = "${pluginRoot}/.razorExtension/Microsoft.CodeAnalysis.Razor.Compiler.dll";
-                  razorDesignTimePath = "${pluginRoot}/.razorExtension/Targets/Microsoft.NET.Sdk.Razor.DesignTime.targets";
-                in
-                  mkLuaInline ''
-                    function()
-                      return {
-                        path = '${razorExtension}',
-                        args = {
-                          '--razorSourceGenerator=${razorSourceGenerator}',
-                          '--razorDesignTimePath=${razorDesignTimePath}',
-                        },
-                      }
-                    end
-                  '';
-              };
-            };
           };
         };
         omnisharp-extended-lsp-nvim = {
@@ -223,7 +196,6 @@ in {
         startPlugins = ["roslyn-nvim"];
         pluginRC.roslyn-nvim = entryAnywhere "require('roslyn').setup(${toLuaObject cfg.extensions.roslyn-nvim.setupOpts})";
         lsp.servers.roslyn-ls.enable = false;
-        extraPackages = with pkgs; [roslyn-ls];
       };
     })
     (mkIf (shouldEnableExclusiveLspExtension "omnisharp-extended-lsp-nvim" "omnisharp") {
