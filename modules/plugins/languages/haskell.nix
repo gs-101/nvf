@@ -45,7 +45,7 @@ in {
       enable =
         mkEnableOption "Haskell LSP support"
         // {
-          default = config.vim.lsp.enable;
+          default = config.vim.lsp.enable && !cfg.extensions.haskell-tools.enable;
           defaultText = literalExpression "config.vim.lsp.enable";
         };
       servers = mkOption {
@@ -91,7 +91,7 @@ in {
 
     extensions = {
       haskell-tools = {
-        enable = mkEnableOption "haskell-tools.nvim";
+        enable = mkEnableOption "haskell-tools.nvim" // { default = cfg.dap.enable; };
 
         mappings = {
           codeLensRun = mkMappingOption "Run code lens [haskell-tools.nvim]" "<localleader>cl";
@@ -107,17 +107,7 @@ in {
             cmd = mkOption {
               type = nullOr (listOf str);
               default = [
-                (getExe (pkgs.symlinkJoin {
-                  name = "haskell-language-server-wrapper";
-                  paths = [pkgs.haskellPackages.haskell-language-server];
-                  meta.mainProgram = "haskell-language-server-wrapper";
-                  buildInputs = [pkgs.makeBinaryWrapper];
-                  # wrap HLS-wrapper so it can find the actual binary
-                  postBuild = ''
-                    wrapProgram $out/bin/haskell-language-server-wrapper \
-                      --prefix PATH : ${haskellPackages.haskell-language-server}/bin
-                  '';
-                }))
+                "haskell-language-server-wrapper"
                 "--lsp"
               ];
               description = "Command for haskell-language-server.";
