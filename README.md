@@ -29,7 +29,7 @@
 </div>
 
 >[!NOTE]
->This fork exists only to remove package declarations from nvf, reducing closure size and development dependencies to project flakes.
+>This fork exists just to remove package declarations from nvf, reducing closure size and letting users manage their dependencies by themselves (at a project's flake, for example).
 
 <div align="center">
   <a>
